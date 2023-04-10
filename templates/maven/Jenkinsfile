@@ -9,6 +9,15 @@ pipeline {
   }
   stages {
     stage('Publish') {
+      when {
+        anyOf {
+          branch 'main'
+          branch 'pr-*'
+        }
+        not {
+          triggeredBy 'EventTriggerCause' 
+        }
+      }
       steps {
         publishEvent event: jsonEvent('{"myKey":"Blotto"}')
       }
