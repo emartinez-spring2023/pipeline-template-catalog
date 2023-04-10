@@ -1,0 +1,14 @@
+library 'pipeline-library'
+pipeline {
+  agent none
+  options {
+   timeout(time: 10, unit: 'MINUTES') 
+  }
+  stages {
+    stage('Publish') {
+      steps {
+        publishEvent event: jsonEvent('{"myKey":"Blotto"}')
+      }
+    }
+  }
+}
