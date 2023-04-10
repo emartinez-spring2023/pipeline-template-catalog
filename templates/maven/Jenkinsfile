@@ -8,6 +8,9 @@ pipeline {
    timeout(time: 10, unit: 'MINUTES') 
   }
   stages {
+    stage('Publish') {
+      publishEvent event: jsonEvent('{"myKey":"Blotto"}')
+    }
     stage('Agent') {
       agent { label 'maven' }
       stages { 
