@@ -9,7 +9,9 @@ pipeline {
   }
   stages {
     stage('Publish') {
-      publishEvent event: jsonEvent('{"myKey":"Blotto"}')
+      steps {
+        publishEvent event: jsonEvent('{"myKey":"Blotto"}')
+      }
     }
     stage('Agent') {
       agent { label 'maven' }
