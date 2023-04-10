@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage('Publish') {
       steps {
-        publishEvent event: jsonEvent('{"myKey":"Blotto"}')
+        publishEvent event: jsonEvent('{"myKey":"Blotto"}'), verbose: true
       }
     }
   }
