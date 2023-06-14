@@ -6,6 +6,7 @@ pipeline {
   }
   stages {
         stage ('Build and Analysis') {
+          agent { label 'linux' && 'jdk11'}      
           when {
             beforeAgent true
             anyOf {
@@ -39,6 +40,7 @@ pipeline {
           }
         }
         stage ('Test') {
+          agent { label 'linux' && 'jdk11'}          
           when {
             anyOf {
               branch 'main'
