@@ -1,4 +1,4 @@
-name: workshop-catalog
-displayName: CloudBees CI Workshop Template Catalog
+name: sample-catalog
+displayName: CloudBees CI Sample Template Catalog
 version: 1
 type: pipeline-template-catalog
