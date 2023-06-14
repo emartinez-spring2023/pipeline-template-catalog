@@ -14,7 +14,6 @@ parameters:
   - name: githubCredentialId
     displayName: GitHub Credential ID
     type: CREDENTIALS
-    defaultValue: cloudbees-ci-workshop-github-app
 multibranch:
   markerFile: cloudbees-ci.yml 
   branchSource:
