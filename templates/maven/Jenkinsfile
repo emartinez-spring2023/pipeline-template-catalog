@@ -44,9 +44,6 @@ pipeline {
               branch 'main'
               branch 'pr-*'
             }
-            not {
-              triggeredBy 'EventTriggerCause' 
-            }
           }
           steps {
              container ('maven') {
@@ -58,8 +55,4 @@ pipeline {
               junit 'target/surefire-reports/*.xml'
             }
           }
-        }
-      }
-    }
-  }
 }
