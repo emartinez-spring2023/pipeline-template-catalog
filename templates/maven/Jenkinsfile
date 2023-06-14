@@ -1,61 +1,16 @@
 library 'pipeline-library'
 pipeline {
   agent none
-  triggers {
-    eventTrigger jmespathQuery("event=='imagePush' && name=='maven'")
-  }
   options {
    timeout(time: 10, unit: 'MINUTES') 
   }
   stages {
-    stage('Publish') {
-      when {
-        anyOf {
-          branch 'main'
-          branch 'pr-*'
-        }
-        not {
-          triggeredBy 'EventTriggerCause' 
-        }
-      }
-      steps {
-        publishEvent event: jsonEvent('{"myKey":"Blotto"}')
-      }
-    }
-    stage('Agent') {
-      agent { label 'maven' }
-      stages { 
-        stage('Maven Image Push') {
-          agent any
-          when {
-            triggeredBy 'EventTriggerCause' 
-          }
-          steps {
-            getImageBuildEventPayload()
-            echo "new build image: ${env.EVENT_PUSH_IMAGE_NAME}:${env.EVENT_PUSH_IMAGE_TAG}"
-          }
-        }
-        stage("Set GitHub Branch Protection") {
-          when { 
-            anyOf {
-              expression { BUILD_NUMBER == "1" }
-              expression { BUILD_NUMBER == "2" }
-            }
-            branch 'pr-*'
-          }
-          steps {
-            gitHubBranchProtect(repoOwner, repository)
-          }
-        }
         stage ('Build and Analysis') {
           when {
             beforeAgent true
             anyOf {
               branch 'main'
               branch 'pr-*'
-            }
-            not {
-              triggeredBy 'EventTriggerCause' 
             }
           }
           steps {
@@ -101,20 +56,6 @@ pipeline {
           post {
             always {
               junit 'target/surefire-reports/*.xml'
-            }
-          }
-        }
-        stage ('Deliver') {
-          when {
-            beforeAgent true
-            branch 'main'
-            not {
-              triggeredBy 'EventTriggerCause' 
-            }
-          }
-          steps {
-            container ('maven') {
-              sh './jenkins/scripts/deliver.sh'
             }
           }
         }
